@@ -1,5 +1,7 @@
 import discord
 from dotenv import load_dotenv
+import requests
+
 import os
 
 
@@ -22,8 +24,9 @@ def parse_message(message):
         return message.channel.send("Pong")
     elif content[0] == 'list':
         #useCase getList
-        game_list = ["Among Us", "The Forest", "Sea of Thieves", "Mario"]
-        response  = "\n".join(game_list)
+        # game_list = ["Among Us", "The Forest", "Sea of Thieves", "Mario"]
+        game_list = requests.get('http://127.0.0.1:8000/games')
+        response  = "\n".join(game_list.json())
         return message.channel.send(f'La liste des jeux est :\n{response}')
     return message.channel.send("Je ne comprend pas le message")
 
